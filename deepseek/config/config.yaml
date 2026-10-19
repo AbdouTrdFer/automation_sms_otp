@@ -1,0 +1,166 @@
+# ─────────────────────────────────────────────────────────────────────
+# OTP automation - configuration
+# Do NOT commit credentials. This file contains NO secrets.
+# ─────────────────────────────────────────────────────────────────────
+
+target:
+  # REQUIRED - set this yourself. Intentionally empty.
+  # Can also be set via --url or OTP_TARGET_URL environment variable.
+  url: "https://accounts.binance.com/en/register?registerChannel=&return_to="
+
+input:
+  file: "../Comoros Azure Random2 12th September A2P BINANCE .csv"
+  sheet:                 # null → first sheet
+  column: Number
+  country_code: "269"    # Comoros country code (stripped from number for input)
+  country_name: "Comoros"
+  min_digits: 7
+  max_digits: 15
+
+browser:
+  headless: true
+  channel:               # e.g. "chrome", "msedge"; null → Playwright's bundled Chromium
+  slow_mo_ms: 0
+  viewport_width: 1440
+  viewport_height: 900
+  locale: en-US
+  user_agent:            # null → Playwright default
+  ignore_https_errors: false
+  default_timeout_ms: 15000
+  navigation_timeout_ms: 45000
+  fresh_context_per_case: true
+  block_resource_types: []   # e.g. ["image", "media", "font"]
+
+selectors:
+  # Verified against the provided HTML of the target form.
+  phone_input:
+    - "input[data-e2e='input-username']"
+    - "input[name='username']"
+    - "#bn-formItem-NwCozg1O"
+    - "#bn-formItem-KEDyUSWB"
+  country_input:
+    - ".bn-sdd-input input"
+    - ".bn-sdd-input"
+    - "div[role='group'].bn-sdd-input input"
+    - "input[aria-label='Text field']"
+  country_code: "269"
+  country_name: "Comoros"
+  verify_input_value: true
+  typing_delay_ms: 40
+  agreement_checkbox:
+    - ".agreement-checkbox"
+    - "div[role='checkbox'][name='agreement']"
+    - "#bn-formItem-TM237UX5"
+    - "#bn-formItem-9woCYcyM"
+  agreement_checked_attribute: aria-checked
+  agreement_checked_value: "true"
+  agreement_required: true
+  submit_button:
+    - "button[aria-label='Register']"
+    - "button.bn-button__primary"
+  text_container: body
+
+detection:
+  # Explicit success signals → SUCCESS
+  success_keywords:
+    - keyword: "verification code"
+      category: otp_sent
+    - keyword: "code sent"
+      category: otp_sent
+    - keyword: "we sent"
+      category: otp_sent
+    - keyword: "code has been sent"
+      category: otp_sent
+    - keyword: "sent you a code"
+      category: otp_sent
+    - keyword: "verification code sent"
+      category: otp_sent
+    - keyword: "enter 6-digit code"
+      category: otp_sent
+    - keyword: "enter verification code"
+      category: otp_sent
+
+  # Explicit failure signals → FAILED (evaluated before success)
+  failure_keywords:
+    - keyword: "invalid phone"
+      category: invalid_phone
+    - keyword: "not recognized"
+      category: invalid_phone
+    - keyword: "please enter a valid"
+      category: invalid_phone
+    - keyword: "incorrect phone"
+      category: invalid_phone
+    - keyword: "too many attempts"
+      category: rate_limited
+    - keyword: "try again later"
+      category: rate_limited
+    - keyword: "too frequent"
+      category: rate_limited
+    - keyword: "already registered"
+      category: already_registered
+    - keyword: "already exists"
+      category: already_registered
+    - keyword: "account exists"
+      category: already_registered
+    # NOTE: "security verification" and "slide to complete" are handled
+    #       by the Binance slider CAPTCHA solver — NOT in failure_keywords.
+
+  # DOM-level signals (checked every poll cycle)
+  success_selectors: []
+  failure_selectors: []
+
+  poll_interval_ms: 500
+  response_timeout_ms: 20000
+  ignore_baseline_matches: true
+
+safety:
+  stop_on_first_error: false
+  max_consecutive_problems: 5
+  delay_between_cases_ms: 1500
+
+reporting:
+  output_file: output/report.xlsx
+  also_write_csv: true
+  screenshot_on: [ERROR, UNKNOWN]
+  screenshot_dir: output/screenshots
+  screenshot_full_page: false
+
+auth:
+  # Set true ONLY if your authorized test platform requires login.
+  enabled: false
+  login_url: ""
+  username_input: "input[name='username']"
+  password_input: "input[name='password']"
+  submit_button: "button[type='submit']"
+  success_selector: ""
+
+captcha:
+  # When enabled, the runner detects reCAPTCHA v2 / hCaptcha widgets before submission.
+  # provider: "none"   -> block on detection (raise CaptchaDetectedError).
+  # provider: "nopecha" -> solve via the NopeCHA Token API (requires NOPECHA_API_KEY env var).
+  # sitekey_override:  optional manual sitekey; skip page extraction if set.
+  enabled: true
+  provider: nopecha
+  timeout_ms: 2000        # detection + verification wait
+  solve_timeout_ms: 30000  # NopeCHA Token API poll deadline
+  sitekey_override: I-8BSSEVMAUNXU       # e.g. "6Ld8NA8jAAAAAPJ_ahIPVIMc0C4q58rntFkopFiA"
+  type: auto  # recaptcha2 | hcaptcha | auto
+
+  # Binance slider CAPTCHA (bs-modal) — image recognition via noPecha.
+  # Triggered AFTER submit when .bs-modal appears in the DOM.
+  # Uses noPecha image recognition API (https://api.nopecha.com/v1/recognition/geetest).
+  #
+  # Keyless mode (no NOPECHA_API_KEY env var):
+  #   - Free tier: 100 solves/day per IP address
+  #   - If your IP was previously flagged → get "Banned IP" (HTTP 403)
+  #   - Fix: restart router for new IP, or sign up at nopecha.com for a free key
+  #
+  # With API key (set NOPECHA_API_KEY env var):
+  #   - Key passed in JSON body (POST) and query params (GET polling)
+  #   - Higher quotas, bypasses IP ban checks
+  #
+  # Diagnostic: .venv/Scripts/python.exe -c "import requests; print(requests.post('https://api.nopecha.com/v1/recognition/geetest', json={'task':'test','image_data':[]}).status_code)"
+
+logging:
+  level: INFO
+  file: output/run.log

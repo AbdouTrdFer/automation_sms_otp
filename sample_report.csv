@@ -1,0 +1,4 @@
+source_row,phone_number_masked,execution_timestamp,status,platform_response_category,input_result,error_description,execution_duration_seconds
+2,+*******0100,2026-10-17T09:45:09+00:00,UNKNOWN,NOT_RUN_OFFLINE,ELIGIBLE,,0.0
+3,+*******0101,2026-10-17T09:45:09+00:00,UNKNOWN,NOT_RUN_OFFLINE,ELIGIBLE,,0.0
+4,+*******0102,2026-10-17T09:45:09+00:00,UNKNOWN,NOT_RUN_OFFLINE,ELIGIBLE,,0.0

@@ -1,0 +1,40 @@
+Row,Phone Number,Status,Category,Details,Duration (s),Timestamp
+2,2694226383,FAILED,captcha_solve_failed,Slider CAPTCHA was not solved (verification failed after retries),34.41,2026-10-19 00:22:17
+3,2694922174,FAILED,captcha_solve_failed,Slider CAPTCHA was not solved (verification failed after retries),36.37,2026-10-19 00:22:55
+4,2694222409,FAILED,captcha_solve_failed,Slider CAPTCHA was not solved (verification failed after retries),38.78,2026-10-19 00:23:35
+5,2694045003,FAILED,captcha_solve_failed,Slider CAPTCHA was not solved (verification failed after retries),34.62,2026-10-19 00:24:12
+6,2694686476,UNKNOWN,,,36.07,2026-10-19 00:24:50
+7,2694009999,FAILED,captcha_solve_failed,Slider CAPTCHA was not solved (verification failed after retries),34.94,2026-10-19 00:25:27
+8,2694709015,FAILED,captcha_solve_failed,Slider CAPTCHA was not solved (verification failed after retries),35.58,2026-10-19 00:26:04
+9,2694090473,FAILED,captcha_solve_failed,Slider CAPTCHA was not solved (verification failed after retries),36.47,2026-10-19 00:26:43
+10,2694201070,FAILED,captcha_solve_failed,Slider CAPTCHA was not solved (verification failed after retries),34.77,2026-10-19 00:27:19
+11,2694631786,FAILED,captcha_solve_failed,Slider CAPTCHA was not solved (verification failed after retries),37.52,2026-10-19 00:27:59
+12,2694079246,FAILED,captcha_solve_failed,Slider CAPTCHA was not solved (verification failed after retries),37.61,2026-10-19 00:28:38
+13,2694453750,FAILED,captcha_solve_failed,Slider CAPTCHA was not solved (verification failed after retries),34.07,2026-10-19 00:29:14
+14,2694443351,ERROR,execution_error,"Locator.click: Timeout 15000ms exceeded.
+Call log:
+  - waiting for locator(""input[data-e2e='input-username']"").first
+    - locator resolved to <input value="""" type=""text"" autofocus="""" role=""textbox"" name=""username"" spellcheck=""false"" aria-required=""true"" autocapitalize=""off"" autocomplete=""username"" id=""bn-formItem-cUzhhv36"" data-e2e=""input-username"" class=""bn-textField-input !w-[inherit]"" placeholder=""Email/Phone (without country code)"" aria-label=""Username field for email or phone number""/>
+  - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <div role=""presentation"" class=""bn-trans data-show bn-mask bn-modal"">…</div> intercepts pointer events
+    - retrying click action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <div role=""presentation"" class=""bn-trans data-show bn-mask bn-modal"">…</div> intercepts pointer events
+    - retrying click action
+      - waiting 100ms
+    26 × waiting for element to be visible, enabled and stable
+       - element is visible, enabled and stable
+       - scrolling into view if needed
+       - done scrolling
+       - <div role=""presentation"" class=""bn-trans data-show bn-mask bn-modal"">…</div> intercepts pointer events
+     - retrying click action
+       - waiting 500ms
+",25.52,2026-10-19 00:29:41
